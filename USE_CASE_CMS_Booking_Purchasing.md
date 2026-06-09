@@ -11,7 +11,7 @@
 | Hệ thống | CMS Multi-Room Booking & Purchasing |
 | Phiên bản | 1.1 |
 | Ngày tạo | 2026-06-09 |
-| Cập nhật | 2026-06-09 — bổ sung phân hệ Kế toán & Công nợ (UC-13…UC-18); tích hợp Open Questions thành Quyết định đã chốt |
+| Cập nhật | 2026-06-09 - bổ sung phân hệ Kế toán & Công nợ (UC-13…UC-18); tích hợp Open Questions thành Quyết định đã chốt; thêm Phụ lục A - Ghi chú khảo sát yêu cầu |
 | Trạng thái | Draft |
 | Người tạo | Business Analyst Team |
 | Phạm vi | Quản lý booking đa phòng, quy trình mua phòng từ supplier, và kế toán/công nợ |
@@ -26,11 +26,12 @@
 4. [Danh sách Actor](#4-danh-sách-actor)
 5. [Use Case Diagram tổng quan](#5-use-case-diagram-tổng-quan)
 6. [Mô hình dữ liệu (ERD)](#6-mô-hình-dữ-liệu-erd)
-7. [Đặc tả Use Case — Booking & Purchasing](#7-đặc-tả-use-case--booking--purchasing)
-8. [Đặc tả Use Case — Kế toán & Công nợ](#8-đặc-tả-use-case--kế-toán--công-nợ)
+7. [Đặc tả Use Case - Booking & Purchasing](#7-đặc-tả-use-case--booking--purchasing)
+8. [Đặc tả Use Case - Kế toán & Công nợ](#8-đặc-tả-use-case--kế-toán--công-nợ)
 9. [Order Status Lifecycle](#9-order-status-lifecycle)
 10. [Tổng hợp Business Rules](#10-tổng-hợp-business-rules)
 11. [Quyết định nghiệp vụ đã chốt](#11-quyết-định-nghiệp-vụ-đã-chốt)
+12. [Phụ lục A - Ghi chú khảo sát yêu cầu](#phụ-lục-a--ghi-chú-khảo-sát-yêu-cầu)
 
 ---
 
@@ -100,8 +101,8 @@ CMS được xây dựng nhằm **thay thế quy trình vận hành thủ công 
 | **OTA Integration** | Hệ thống ngoài | Đồng bộ booking và update từ OTA về CMS. |
 | **Operation Staff** | Người dùng | Quản lý booking, chỉnh sửa, hủy, xem lịch sử. |
 | **Purchasing Staff** | Người dùng | Tìm và mua phòng từ supplier, hoàn tất purchasing. |
-| **Accounting Staff** | Người dùng | Theo dõi doanh thu, chi phí, **công nợ phải thu/phải trả** theo purchasing record; ghi nhận thanh toán & đối soát. |
-| **System** | Tác nhân tự động | Xử lý workflow tự động, scheduler, notification; **tự sinh bút toán công nợ** (AR/AP) từ booking & purchasing record. |
+| **Accounting Staff** | Người dùng | Theo dõi doanh thu, chi phí, công nợ phải thu/phải trả theo purchasing record; ghi nhận thanh toán & đối soát. |
+| **System** | Tác nhân tự động | Xử lý workflow tự động, scheduler, notification; tự sinh bút toán công nợ (AR/AP) từ booking & purchasing record. |
 
 ---
 
@@ -295,7 +296,7 @@ erDiagram
 
 ---
 
-## 7. Đặc tả Use Case — Booking & Purchasing
+## 7. Đặc tả Use Case - Booking & Purchasing
 
 ---
 
@@ -833,7 +834,7 @@ sequenceDiagram
 
 ---
 
-## 8. Đặc tả Use Case — Kế toán & Công nợ
+## 8. Đặc tả Use Case - Kế toán & Công nợ
 
 ### 8.1. Mô hình kế toán
 
@@ -852,7 +853,7 @@ Hai loại công nợ:
 
 > **Nguyên tắc hạch toán:** Kế toán **hạch toán theo Purchasing Record**, không theo Booking (xem [QĐ-02](#11-quyết-định-nghiệp-vụ-đã-chốt)). Mỗi Purchasing Record là một đơn vị công nợ phải trả độc lập, cho phép một booking có nhiều supplier với nhiều dòng công nợ riêng biệt.
 
-### 8.2. Use Case Diagram — Phân hệ Kế toán
+### 8.2. Use Case Diagram - Phân hệ Kế toán
 
 ```mermaid
 graph LR
@@ -1091,7 +1092,7 @@ sequenceDiagram
 | **Postconditions** | Hiển thị danh sách công nợ toàn hệ thống kèm tổng hợp |
 | **Priority** | Critical |
 
-> Đây là **màn hình riêng** dành cho kế toán, tổng hợp công nợ AR + AP của **toàn bộ hệ thống** dưới dạng list view — không phụ thuộc vào việc mở từng booking.
+> Đây là **màn hình riêng** dành cho kế toán, tổng hợp công nợ AR + AP của **toàn bộ hệ thống** dưới dạng list view - không phụ thuộc vào việc mở từng booking.
 
 #### Main Flow
 
@@ -1319,3 +1320,194 @@ Các vấn đề trước đây còn để mở (Open Questions) đã được *
 ---
 
 > **Ghi chú thiết kế:** Hệ thống phải hỗ trợ mở rộng - không giới hạn số phòng mỗi room type, không giới hạn số supplier, và không phụ thuộc vào cấu trúc hiện tại của OTA. Mọi mở rộng quy mô kinh doanh trong tương lai không được yêu cầu thay đổi data model cốt lõi (Booking → Order Item → Purchasing Record → Actual Room).
+
+---
+
+## Phụ lục A - Ghi chú khảo sát yêu cầu
+
+> Phụ lục này ghi lại các phát hiện trong quá trình trao đổi yêu cầu (requirement discovery) và **truy vết** mỗi phát hiện tới use case / business rule / quyết định tương ứng trong tài liệu chính.
+
+### Bảng truy vết tổng hợp
+
+| Mục | Phát hiện | Truy vết |
+| --- | --- | --- |
+| A.1 | "Đơn nhiều căn" = một booking chứa nhiều room | UC-02, BR-02→BR-04 |
+| A.2 | Loại bỏ thao tác copy thủ công của Lark Base | §1 Giới thiệu, UC-02 |
+| A.3 | Purchasing theo Purchase Lead Time, không tự động | UC-04, BR-05, BR-06 |
+| A.4 | Một booking mua từ nhiều supplier | UC-05, BR-07, BR-08; UC-14 |
+| A.5 | Khách đặt room type, mua room thực tế | UC-05, BR-09; ERD |
+| A.6 | Cho phép thay thế room type khi không mua được | UC-07, BR-12, BR-13 |
+| A.7 | Audit log, không hard delete | UC-12, BR-24→BR-26 |
+| A.8 | Cancellation policy ở cấp Property | UC-10, BR-20 |
+| A.9 | Giới hạn chỉnh sửa sau purchasing | UC-09, BR-14→BR-19, BR-27 |
+| A.10 | KPI không bị ảnh hưởng bởi booking nhiều room | Ghi chú phạm vi (xem A.10) |
+| A.11 | OTA update xử lý như hủy / từ chối | UC-11, BR-22, BR-23 |
+| A.12 | Không giới hạn số room/supplier - scalable | §2.3, Ghi chú thiết kế |
+
+---
+
+### A.1. Làm rõ Multi-Room Booking
+
+Ban đầu xuất hiện khái niệm **"đơn nhiều căn"**. Sau khi trao đổi với người dùng, xác nhận:
+
+- "Đơn nhiều căn" thực chất là **một booking chứa nhiều room**.
+- Ví dụ: Studio × 2, 1BR × 1.
+- Booking vẫn là **một Order duy nhất** → CMS không cần tạo nhiều booking riêng biệt.
+- Booking sẽ chứa nhiều **room requests** (Order Item).
+
+```mermaid
+graph TD
+    B["Booking #123 (1 Order)"] --> R1["Room Request: Studio × 2"]
+    B --> R2["Room Request: 1BR × 1"]
+    style B fill:#d7eafe,stroke:#4a6fa5
+```
+
+> **Truy vết:** UC-02 Create Multi-Room Booking; BR-02 (nhiều room type), BR-03 (quantity > 1), BR-04 (cùng một Order).
+
+---
+
+### A.2. Quy trình hiện tại trên Lark Base
+
+Hiện tại dữ liệu được quản lý trên **Lark Base**. Khi booking có nhiều room:
+
+- Nhân viên phải **copy record thủ công**.
+- Các record có phần lớn dữ liệu giống nhau.
+- Khác biệt chủ yếu nằm ở thông tin **purchasing**.
+
+Mục tiêu của CMS:
+
+- Loại bỏ thao tác copy thủ công.
+- Tự động quản lý room requests và purchasing records.
+
+> **Truy vết:** §1 Giới thiệu (bài toán cốt lõi); UC-02 tự động tạo Order Items.
+
+---
+
+### A.3. Purchasing Workflow
+
+Purchasing **không** diễn ra ngay khi nhận booking. Mỗi Property được cấu hình **Purchase Lead Time** (ví dụ: 3 / 5 / 7 ngày).
+
+Trước ngày check-in N ngày:
+
+- Hệ thống gửi **notification**.
+- Nhân viên purchasing thực hiện xử lý.
+- CMS **không** tự động purchasing.
+
+```mermaid
+flowchart LR
+    A[Nhận Booking] --> B[Pending Purchase]
+    B -. chờ tới mốc .-> C["Check-in − Lead Time"]
+    C --> D[System gửi Notification]
+    D --> E[Purchasing Staff xử lý thủ công]
+    style C fill:#ffe9c7,stroke:#d08b2c
+```
+
+> **Truy vết:** UC-04 Notify Purchasing Window; BR-05 (lead time ở Property), BR-06 (chỉ notify, không tự purchasing).
+
+---
+
+### A.4. Xử lý Supplier
+
+Một booking có thể được mua từ **nhiều supplier**. Ví dụ Studio × 2:
+
+- Supplier A cung cấp 1 room.
+- Supplier B cung cấp 1 room.
+
+Accounting có thể cần theo dõi chi phí **theo supplier**. Data model phải hỗ trợ nhiều supplier cho cùng booking.
+
+> **Truy vết:** UC-05 Create Purchasing Record; BR-07 (nhiều supplier), BR-08 (một supplier nhiều room); UC-14 theo dõi công nợ theo supplier.
+
+---
+
+### A.5. Gán Actual Room
+
+Khách đặt **room type**; purchasing mua **room thực tế**. Ví dụ khách đặt Studio × 2 → purchasing gán Room 101, Room 203.
+
+- CMS phải quản lý tới **room cụ thể**.
+- Room có thể được gán **sau khi** purchasing hoàn tất.
+
+> **Truy vết:** UC-05 (chọn Actual Room); BR-09 (actual room xác định sau khi mua); ERD: `PURCHASING_RECORD → ACTUAL_ROOM`.
+
+---
+
+### A.6. Kịch bản Room Replacement
+
+Có trường hợp không mua được đúng room type. Ví dụ khách đặt Studio × 2 nhưng purchasing chỉ tìm được Studio × 1 + 2BR × 1.
+
+- Hệ thống cần cho phép **thay thế room type**.
+- Mọi thay đổi phải được **audit**.
+
+> **Truy vết:** UC-07 Replace Room Type; BR-12 (bắt buộc nhập lý do), BR-13 (không xóa lịch sử).
+
+---
+
+### A.7. Audit History
+
+Người dùng yêu cầu lưu lịch sử thay đổi qua **Audit Log**, lưu: User, Timestamp, Action, Old Value, New Value, Reason.
+
+- **Không** sử dụng hard delete.
+- Khi xóa dữ liệu → chuyển trạng thái **Removed / Cancelled**, vẫn giữ lịch sử.
+
+> **Truy vết:** UC-12 View Audit History; BR-24, BR-25 (không hard delete), BR-26 (mọi thay đổi phải audit).
+
+---
+
+### A.8. Cancellation Policy
+
+Cancellation Policy được cấu hình ở **cấp Property**, không cần tới cấp Room Type.
+
+- **Chưa xác định** có hỗ trợ cấu hình toàn hệ thống (global default) hay không → cần làm rõ ở giai đoạn sau.
+
+> **Truy vết:** UC-10 Cancel Booking; BR-20 (policy theo Property). *Điểm mở:* policy toàn hệ thống chưa chốt.
+
+---
+
+### A.9. Chỉnh sửa Booking sau Purchasing
+
+Sau khi purchasing hoàn tất:
+
+| Hành động | Trạng thái |
+| --- | --- |
+| Tăng quantity | Không cho phép |
+| Đổi room type | Không cho phép |
+| Đổi check-in date | Không cho phép |
+| Đổi check-out date | Không cho phép |
+| Giảm quantity | Cho phép (có thể charge tới 100%) |
+
+> **Truy vết:** UC-09 Modify Booking After Purchasing; BR-14→BR-19; BR-27 (không partial cancellation sau Purchased).
+
+---
+
+### A.10. Ảnh hưởng KPI
+
+Hiện tại KPI **không** bị ảnh hưởng bởi booking nhiều room:
+
+- Một booking vẫn được giao cho **cùng một** nhân viên vận hành.
+- Không cần tách KPI theo room.
+
+> **Truy vết:** Ghi chú phạm vi - không phát sinh use case; thiết kế data model giữ booking là đơn vị giao việc.
+
+---
+
+### A.11. OTA Booking Updates
+
+OTA đôi khi gửi thay đổi booking. Nghiệp vụ hiện tại:
+
+- Hủy booking, hoặc
+- Từ chối thay đổi.
+
+Không tự động cập nhật booking đã purchasing.
+
+> **Truy vết:** UC-11 OTA Booking Update; BR-22 (không tự update booking đã Purchased), BR-23 (xử lý như cancellation/reject).
+
+---
+
+### A.12. Cân nhắc Khả năng mở rộng
+
+Hiện tại: tối đa khoảng 5 room cho mỗi room type. Tuy nhiên hệ thống cần:
+
+- Không giới hạn số lượng room.
+- Không giới hạn số lượng supplier.
+- Hỗ trợ mở rộng business trong tương lai.
+
+> **Truy vết:** §2.3 Nguyên tắc thiết kế (Scalable); Ghi chú thiết kế cuối §11. Data model cốt lõi không phụ thuộc số lượng hiện tại.
